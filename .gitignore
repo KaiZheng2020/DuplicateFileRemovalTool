@@ -1,0 +1,34 @@
+logs
+
+# Python
+*.pyc
+*.pyo
+*.egg-info/
+
+# Jupyter
+.ipynb_checkpoints
+
+# Temp
+build
+dist
+*.local
+
+# vn.py
+.vntrader
+
+# Visual Studio intermediate files
+*.exp
+*.iobj
+*.ipdb
+*.pdb
+
+# Documents
+_build
+_static
+_templates
+
+# Misc
+.DS_Store
+
+# QT
+.qt_for_python

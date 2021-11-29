@@ -1,0 +1,10 @@
+numpy
+pandas
+matplotlib
+pymysql
+sqlalchemy 
+loguru
+pdfplumber
+yahooquery
+tqdm
+multiprocess
