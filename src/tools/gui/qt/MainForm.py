@@ -15,9 +15,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QGridLayout, QGroupBox, QHBoxLayout,
-    QLayout, QLineEdit, QPushButton, QSizePolicy,
-    QTextEdit, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QCheckBox, QGridLayout, QGroupBox,
+    QHBoxLayout, QLayout, QLineEdit, QPushButton,
+    QSizePolicy, QTextEdit, QVBoxLayout, QWidget)
 
 class Ui_Form_DFR(object):
     def setupUi(self, Form_DFR):
@@ -43,6 +43,12 @@ class Ui_Form_DFR(object):
 
         self.horizontalLayout.addWidget(self.lineEdit_Path)
 
+        self.checkBox_TrashFlag = QCheckBox(Form_DFR)
+        self.checkBox_TrashFlag.setObjectName(u"checkBox_TrashFlag")
+        self.checkBox_TrashFlag.setChecked(True)
+
+        self.horizontalLayout.addWidget(self.checkBox_TrashFlag)
+
         self.pushButton_Open = QPushButton(Form_DFR)
         self.pushButton_Open.setObjectName(u"pushButton_Open")
         self.pushButton_Open.setMinimumSize(QSize(87, 30))
@@ -56,8 +62,8 @@ class Ui_Form_DFR(object):
         self.horizontalLayout.addWidget(self.pushButton_Start)
 
         self.horizontalLayout.setStretch(0, 5)
-        self.horizontalLayout.setStretch(1, 1)
         self.horizontalLayout.setStretch(2, 1)
+        self.horizontalLayout.setStretch(3, 1)
 
         self.verticalLayout.addLayout(self.horizontalLayout)
 
@@ -67,6 +73,9 @@ class Ui_Form_DFR(object):
         self.gridLayout.setObjectName(u"gridLayout")
         self.textEdit_Log = QTextEdit(self.groupBox_Log)
         self.textEdit_Log.setObjectName(u"textEdit_Log")
+        font = QFont()
+        font.setPointSize(10)
+        self.textEdit_Log.setFont(font)
 
         self.gridLayout.addWidget(self.textEdit_Log, 0, 0, 1, 1)
 
@@ -81,6 +90,7 @@ class Ui_Form_DFR(object):
 
     def retranslateUi(self, Form_DFR):
         Form_DFR.setWindowTitle(QCoreApplication.translate("Form_DFR", u"Duplicate File Removal Tool", None))
+        self.checkBox_TrashFlag.setText(QCoreApplication.translate("Form_DFR", u"Move To Trash", None))
         self.pushButton_Open.setText(QCoreApplication.translate("Form_DFR", u"Open", None))
         self.pushButton_Start.setText(QCoreApplication.translate("Form_DFR", u"Start", None))
         self.groupBox_Log.setTitle(QCoreApplication.translate("Form_DFR", u"Log", None))

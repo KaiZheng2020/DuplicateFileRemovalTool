@@ -10,7 +10,7 @@
             "request": "launch",
             "stopOnEntry": false,
             "python": "${command:python.interpreterPath}",
-            "program": "${file}",
+            "program": "${workspaceFolder}/src/main.py",
             "cwd": "${workspaceRoot}",
             "env": { "PYTHONPATH": "${workspaceRoot}" }
         }

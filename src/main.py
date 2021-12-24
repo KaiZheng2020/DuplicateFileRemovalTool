@@ -1,10 +1,9 @@
 import sys
 
-from PySide6 import QtWidgets
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QApplication, QWidget
+from PySide6.QtWidgets import QApplication
 
-from gui.MainForm import MainForm
+from tools.gui.MainForm import MainForm
 
 if __name__ == '__main__':
 
