@@ -8,16 +8,15 @@
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
-    QMetaObject, QObject, QPoint, QRect,
-    QSize, QTime, QUrl, Qt)
-from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
-    QFont, QFontDatabase, QGradient, QIcon,
-    QImage, QKeySequence, QLinearGradient, QPainter,
-    QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QGridLayout, QGroupBox, QHBoxLayout,
-    QLayout, QLineEdit, QPushButton, QSizePolicy,
-    QTextEdit, QVBoxLayout, QWidget)
+from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale, QMetaObject, QObject, QPoint, QRect, QSize, Qt, QTime,
+                            QUrl)
+from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont, QFontDatabase, QGradient, QIcon, QImage,
+                           QKeySequence, QLinearGradient, QPainter, QPalette, QPixmap, QRadialGradient, QTransform)
+from PySide6.QtWidgets import (QApplication, QGridLayout, QGroupBox, QHBoxLayout, QLayout, QLineEdit, QPushButton, QSizePolicy,
+                               QTextEdit, QVBoxLayout, QWidget)
+
+from .resources.res import *
+
 
 class Ui_Form_DFR(object):
     def setupUi(self, Form_DFR):
@@ -29,6 +28,9 @@ class Ui_Form_DFR(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(Form_DFR.sizePolicy().hasHeightForWidth())
         Form_DFR.setSizePolicy(sizePolicy)
+        icon = QIcon()
+        icon.addFile(u":/icon/logo.png", QSize(), QIcon.Normal, QIcon.Off)
+        Form_DFR.setWindowIcon(icon)
         self.verticalLayout = QVBoxLayout(Form_DFR)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.horizontalLayout = QHBoxLayout()
@@ -70,13 +72,12 @@ class Ui_Form_DFR(object):
 
         self.gridLayout.addWidget(self.textEdit_Log, 0, 0, 1, 1)
 
-
         self.verticalLayout.addWidget(self.groupBox_Log)
-
 
         self.retranslateUi(Form_DFR)
 
         QMetaObject.connectSlotsByName(Form_DFR)
+
     # setupUi
 
     def retranslateUi(self, Form_DFR):
@@ -84,5 +85,5 @@ class Ui_Form_DFR(object):
         self.pushButton_Open.setText(QCoreApplication.translate("Form_DFR", u"Open", None))
         self.pushButton_Start.setText(QCoreApplication.translate("Form_DFR", u"Start", None))
         self.groupBox_Log.setTitle(QCoreApplication.translate("Form_DFR", u"Log", None))
-    # retranslateUi
 
+    # retranslateUi

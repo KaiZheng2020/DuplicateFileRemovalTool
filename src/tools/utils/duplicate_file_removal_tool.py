@@ -118,8 +118,7 @@ class DuplicateFileRemoval(Thread):
             file_list_temp = np.array_split(file_list, workers)
 
             with Pool(processes=workers) as p:
-                results = list(tqdm(p.imap(lambda x: collect_file_info(x), file_list_temp), total=len(file_list_temp),
-                                    ncols=80))
+                results = list(tqdm(p.imap(lambda x: collect_file_info(x), file_list_temp), total=len(file_list_temp)))
             files_df = pd.concat(results)
 
         total_files_count = len(files_df)
@@ -141,7 +140,7 @@ class DuplicateFileRemoval(Thread):
 
         removal_duplicate_file_count = 0
 
-        for duplicate_file_size_df in tqdm(duplicate_file_size_group, ncols=80):
+        for duplicate_file_size_df in tqdm(duplicate_file_size_group):
             removal_duplicate_file_count += remove_duplicate_files_by_md5(duplicate_file_size_df)
 
         logger.info(f'Removal Duplicate Files: {removal_duplicate_file_count}')

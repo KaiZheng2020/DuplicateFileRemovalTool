@@ -49,8 +49,6 @@ class MainForm(QWidget):
         self.gui = Ui_Form_DFR()
         self.gui.setupUi(self)
 
-        self.setWindowIcon(icon=QtGui.QIcon('logo.png'))
-
         # Log
         self.stream = Stream()
         self.stream._log.connect(self.log)
