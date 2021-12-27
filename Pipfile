@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+pyside6 = "*"
+tqdm = "*"
+loguru = "*"
+numpy = "*"
+pandas = "*"
+multiprocess = "*"
+send2trash = "*"
+pyinstaller = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.8"

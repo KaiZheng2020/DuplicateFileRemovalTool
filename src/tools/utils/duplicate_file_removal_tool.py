@@ -12,12 +12,44 @@ from send2trash import send2trash
 from tqdm import tqdm
 
 
-def calc_md5(path):
-    with open(path, 'rb') as f:
+def calc_md5(file_path):
+    with open(file_path, 'rb') as f:
         md5obj = hashlib.md5()
         md5obj.update(f.read())
         hash = md5obj.hexdigest()
         return hash
+
+
+def move_to_trash(file_path):
+    try:
+        send2trash(file_path.replace('/', '\\'))
+    except Exception as ex:
+        logger.info(ex)
+
+
+def remove_duplicate_files_by_md5(file_list):
+
+    file_list_df = file_list[1]
+
+    file_list_df['md5'] = file_list_df['file_path'].apply(lambda x: calc_md5(x))
+    duplicate_md5_df = file_list_df.groupby('md5').filter(lambda group: len(group) > 1)
+    duplicate_md5_count = len(duplicate_md5_df)
+    if (duplicate_md5_count == 0):
+        # logger.info('no duplicate file (by file md5) exists')
+        return 0
+
+    duplicate_md5_group = duplicate_md5_df.groupby('md5')
+
+    for name, group in duplicate_md5_group:
+
+        group.sort_values(by=['create_date', 'modify_date'], ascending=True, inplace=True)
+        group['duplicate'] = group.duplicated(["md5"], keep="first")
+        removal_files_df = group[group['duplicate'] == True]
+        removal_files_df['file_path'].apply(lambda file: move_to_trash(file))
+
+        return len(removal_files_df)
+
+        # logger.info(f'remove {len(removal_files_df)} duplicate files by file md5')
 
 
 def collect_file_info(file_list):
@@ -44,11 +76,26 @@ def collect_file_info(file_list):
     return df
 
 
+class ScanFiles():
+    def __init__(self, path):
+        self.file_list = []
+        self.scan(path)
+
+    def scan(self, dir):
+        try:
+            for i in os.scandir(dir):
+                if i.is_dir() and i.name[0] != '.' and i.name[0] != '$':
+                    self.scan(i)
+                else:
+                    self.file_list.append(i.path)
+        except Exception as ex:
+            logger.info(ex)
+
+
 class DuplicateFileRemoval(Thread):
-    def __init__(self, path, trash_flag):
+    def __init__(self, path):
         super(DuplicateFileRemoval, self).__init__()
         self.path = path
-        self.trash_flag = trash_flag
 
     def run(self):
 
@@ -56,64 +103,56 @@ class DuplicateFileRemoval(Thread):
 
         # collect file list
         df = pd.DataFrame(columns=['file_path', 'file_size', 'create_date', 'modify_date'])
-        file_list = glob(self.path + '/**', recursive=True)
+
+        file_list = ScanFiles(self.path).file_list
         if (len(file_list) == 0):
             raise FileNotFoundError(f'Cannot find files in: {self.path}')
 
-        logger.info(f'1. Total Files: {len(file_list)}')
-
         # parse file list
         if len(file_list) <= 32:
-            workers = 1
+            files_df = collect_file_info(file_list)
         else:
             NUM_USABLE_CPU = max(multiprocessing.cpu_count() - 2, 1)
             workers = min(NUM_USABLE_CPU, len(file_list))
 
-        file_list_temp = np.array_split(file_list, workers)
+            file_list_temp = np.array_split(file_list, workers)
 
-        with Pool(processes=workers) as p:
-            results = list(tqdm(p.imap(lambda x: collect_file_info(x), file_list_temp), total=len(file_list_temp), ncols=80))
+            with Pool(processes=workers) as p:
+                results = list(tqdm(p.imap(lambda x: collect_file_info(x), file_list_temp), total=len(file_list_temp),
+                                    ncols=80))
+            files_df = pd.concat(results)
 
-        files_df = pd.concat(results)
         total_files_count = len(files_df)
 
-        logger.info(f'2. Parsed Files: {total_files_count}')
+        logger.info(f'Total Files: {total_files_count}')
 
-        # find duplicate files by file_size and md5
-        temp_df = files_df.groupby('file_size')
-        source_file_size_count = len(temp_df)
-        if (source_file_size_count == 0 or source_file_size_count == total_files_count):
+        # find duplicate files by file size
+        duplicate_file_size_df = files_df.groupby('file_size').filter(lambda group: len(group) > 1)
+        duplicate_file_size_count = len(duplicate_file_size_df)
+        if (duplicate_file_size_count == 0):
             logger.info('no duplicate file (by file size) exists')
             return
 
-        logger.info(f'3. Collect Duplicate Files by File Size')
+        logger.info(f'Duplicate Files by file size: {duplicate_file_size_count}')
 
-        duplicate_file_size_df = pd.concat(g for _, g in temp_df if len(g) > 1)
-        duplicate_file_size_count = len(duplicate_file_size_df)
-        duplicate_file_size_df['md5'] = duplicate_file_size_df['file_path'].apply(lambda x: calc_md5(x))
-        temp_df = duplicate_file_size_df.groupby('md5')
-        source_md5_count = len(temp_df)
-        if (source_md5_count == 0 or source_md5_count == duplicate_file_size_count):
-            logger.info('no duplicate file (by file md5) exists')
-            return
+        # remove duplicate files by file md5
 
-        logger.info(f'4. Collect Duplicate Files by File MD5')
+        duplicate_file_size_group = duplicate_file_size_df.groupby('file_size')
 
-        duplicate_md5_df = pd.concat(g for _, g in temp_df if len(g) > 1)
-        duplicate_md5_df.sort_values(by=['create_date', 'modify_date'], ascending=True, inplace=True)
+        removal_duplicate_file_count = 0
 
-        duplicate_md5_count = len(duplicate_md5_df)
-        duplicate_md5_df['duplicate'] = duplicate_md5_df.duplicated(["md5"], keep="first")
+        for duplicate_file_size_df in tqdm(duplicate_file_size_group, ncols=80):
+            removal_duplicate_file_count += remove_duplicate_files_by_md5(duplicate_file_size_df)
 
-        removal_files_df = duplicate_md5_df[duplicate_md5_df['duplicate'] == True]
-        removal_files_count = len(removal_files_df)
+        logger.info(f'Removal Duplicate Files: {removal_duplicate_file_count}')
 
-        logger.info(f'5. Removed Duplicate Files: {removal_files_count} ')
+        # NUM_USABLE_CPU = max(multiprocessing.cpu_count() - 2, 1)
+        # workers = min(NUM_USABLE_CPU, len(duplicate_file_size_group))
 
-        if self.trash_flag == True:
-            removal_files_df['file_path'].apply(lambda file: send2trash(file.replace('/', '\\')))
-        else:
-            removal_files_df['file_path'].apply(lambda file: os.remove(file))
+        # with Pool(processes=workers) as p:
+        #     results = list(
+        #         tqdm(p.imap(lambda x: remove_duplicate_files_by_md5(x), duplicate_file_size_group),
+        #              total=len(duplicate_file_size_group),
+        #              ncols=80))
 
-        logger.info(f'6. Duplicate Files Removal finished!')
         logger.info(f'worker end')

@@ -1,6 +1,8 @@
-glob
 PySide6
 tqdm
+loguru
+numpy
+pandas
 multiprocess
 Send2Trash
 pyinstaller

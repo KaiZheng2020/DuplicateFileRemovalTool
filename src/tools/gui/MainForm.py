@@ -18,8 +18,10 @@ def _async_raise(tid, exctype):
         exctype = type(exctype)
     res = ctypes.pythonapi.PyThreadState_SetAsyncExc(tid, ctypes.py_object(exctype))
     if res == 0:
+        logger.info("Thread is already closed.")
+    elif res == 1:
         logger.info("Thread is closed.")
-    elif res != 1:
+    else:
         # """if it returns a number greater than one, you're in trouble,
         # and you should call it again with exc=NULL to revert the effect"""
         ctypes.pythonapi.PyThreadState_SetAsyncExc(tid, None)
@@ -47,6 +49,8 @@ class MainForm(QWidget):
         self.gui = Ui_Form_DFR()
         self.gui.setupUi(self)
 
+        self.setWindowIcon(icon=QtGui.QIcon('logo.png'))
+
         # Log
         self.stream = Stream()
         self.stream._log.connect(self.log)
@@ -63,16 +67,16 @@ class MainForm(QWidget):
         self.gui.pushButton_Start.clicked.connect(self.start)
 
         logger.info('This tool will find and remove Duplicate Files')
-        logger.info('1st step: find duplicate files by file size')
-        logger.info('2nd step: find duplicate files by file md5 from 1st step results')
-        logger.info('3rd step: keep the first file by create_date and modify_date, and remove other duplicate files')
-        logger.info('If \'Move to Trash\' is checked, the duplicate files will be moved to the Trash or Recycle Bin')
+        logger.info('1. find duplicate files by file size')
+        logger.info('2. find duplicate files by file md5 within 1st step results')
+        logger.info('3. keep the first file by create_date and modify_date, and remove other duplicate files')
+        logger.info('The duplicate files will be moved to the Trash or Recycle Bin')
 
     def log(self, text):
         if '\r' in text:
             text = text.replace('\r', '').rstrip()
             cursor = self.gui.textEdit_Log.textCursor()
-            cursor.movePosition(QtGui.QTextCursor.End)
+            # cursor.movePosition(QtGui.QTextCursor.End)
             cursor.select(QtGui.QTextCursor.BlockUnderCursor)
             cursor.removeSelectedText()
             cursor.insertBlock()
@@ -91,7 +95,7 @@ class MainForm(QWidget):
             logger.info('Please Choose Source Dir at first')
         else:
             if self.gui.pushButton_Start.text() == 'Start':
-                self.worker = DuplicateFileRemoval(self.path, self.gui.checkBox_TrashFlag.isChecked())
+                self.worker = DuplicateFileRemoval(self.path)
                 self.worker.start()
                 self.gui.pushButton_Start.setText('Stop')
             else:

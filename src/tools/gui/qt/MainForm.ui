@@ -19,13 +19,9 @@
   <property name="windowTitle">
    <string>Duplicate File Removal Tool</string>
   </property>
-  <property name="windowIcon">
-   <iconset>
-    <normaloff>../../logo.png</normaloff>../../logo.png</iconset>
-  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout" stretch="5,0,1,1">
+    <layout class="QHBoxLayout" name="horizontalLayout" stretch="5,1,1">
      <property name="sizeConstraint">
       <enum>QLayout::SetDefaultConstraint</enum>
      </property>
@@ -36,16 +32,6 @@
          <width>0</width>
          <height>30</height>
         </size>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QCheckBox" name="checkBox_TrashFlag">
-       <property name="text">
-        <string>Move To Trash</string>
-       </property>
-       <property name="checked">
-        <bool>true</bool>
        </property>
       </widget>
      </item>
