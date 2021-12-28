@@ -11,7 +11,7 @@
             "stopOnEntry": false,
             "python": "${command:python.interpreterPath}",
             "program": "${workspaceFolder}/src/main.py",
-            "cwd": "${workspaceRoot}",
+            "cwd": "${fileDirname}",
             "env": { "PYTHONPATH": "${workspaceRoot}" }
         }
     ]

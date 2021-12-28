@@ -1,0 +1,88 @@
+{
+    "explorer.confirmDelete": false,
+    "explorer.confirmDragAndDrop": false,
+    "git.autofetch": true,
+    "terminal.integrated.rendererType": "dom",
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "files.autoSave": "afterDelay",
+    "search.followSymlinks": false,
+    "[html]": {
+        "editor.defaultFormatter": "HookyQR.beautify"
+    },
+    "[json]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "[css]": {
+        "editor.defaultFormatter": "HookyQR.beautify"
+    },
+    "debug.onTaskErrors": "showErrors",
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": true,
+        "source.fixAll.eslint": true
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
+    "prettier.singleQuote": true,
+    "prettier.jsxSingleQuote": true,
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "git.enableSmartCommit": true,
+    "[scss]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "editor.detectIndentation": false,
+    "[javascriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "[less]": {
+        "editor.defaultFormatter": "HookyQR.beautify"
+    },
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "git.confirmSync": false,
+    "editor.formatOnSave": true,
+    "python.languageServer": "Pylance",
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.python"
+    },
+    "jupyter.askForKernelRestart": false,
+    "workbench.editorAssociations": {
+        "*.rst": "default",
+        "*.ipynb": "jupyter-notebook"
+    },
+    "workbench.colorTheme": "Default Light+",
+    "jupyter.notebookFileRoot": "${workspaceFolder}",
+    "jupyter.debugJustMyCode": false,
+    "jupyter.jupyterCommandLineArguments": [],
+    "editor.accessibilitySupport": "off",
+    "editor.wordWrap": "on",
+    "[jsonc]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "notebook.cellToolbarLocation": {
+        "default": "right",
+        "jupyter-notebook": "left"
+    },
+    "editor.wordWrapColumn": 256,
+    "python.formatting.autopep8Args": [
+        "--max-line-length=120"
+    ],
+    "prettier.printWidth": 120,
+    "prettier.tabWidth": 4,
+    "python.linting.flake8Enabled": true,
+    "python.formatting.provider": "yapf",
+    "python.linting.enabled": false,
+    "qtForPython.designer.path": "pyside6-designer",
+    "qtForPython.uic.path": "pyside6-uic",
+    "qtForPython.rcc.path": "pyside6-rcc",
+    "python.formatting.yapfArgs": [
+        "--style={column_limit=128}"
+    ],
+    "python.terminal.executeInFileDir": true
+}
