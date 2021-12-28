@@ -12,6 +12,8 @@ logs
 build
 dist
 *.local
+main.spec
+Pipfile
 
 # vn.py
 .vntrader
