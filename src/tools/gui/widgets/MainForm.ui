@@ -20,7 +20,7 @@
    <string>Duplicate File Removal Tool</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="resources/res.qrc">
+   <iconset resource="../resource/resource.qrc">
     <normaloff>:/icon/logo.png</normaloff>:/icon/logo.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -88,7 +88,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="resources/res.qrc"/>
+  <include location="../resource/resource.qrc"/>
  </resources>
  <connections/>
 </ui>

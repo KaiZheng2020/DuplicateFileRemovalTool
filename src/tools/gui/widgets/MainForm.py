@@ -15,7 +15,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont, QFo
 from PySide6.QtWidgets import (QApplication, QGridLayout, QGroupBox, QHBoxLayout, QLayout, QLineEdit, QPushButton, QSizePolicy,
                                QTextEdit, QVBoxLayout, QWidget)
 
-from .resources.res import *
+from ..resources.resource import *
 
 
 class Ui_Form_DFR(object):

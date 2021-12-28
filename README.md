@@ -8,6 +8,8 @@ This tool will find and remove Duplicate Files. If Move to Trash is checked, the
 
 
 
+
+
 ## Build
 
 You can run main.py by vscode or pycharm directly. 

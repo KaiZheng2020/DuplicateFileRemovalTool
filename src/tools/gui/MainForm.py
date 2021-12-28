@@ -7,8 +7,8 @@ from PySide6 import QtGui
 from PySide6.QtCore import QObject, Signal
 from PySide6.QtWidgets import QApplication, QFileDialog, QWidget
 
-from ..utils.duplicate_file_removal_tool import DuplicateFileRemoval
-from .qt.MainForm import Ui_Form_DFR
+from ..core.duplicate_file_removal_tool import DuplicateFileRemoval
+from .widgets.MainForm import Ui_Form_DFR
 
 
 def _async_raise(tid, exctype):
