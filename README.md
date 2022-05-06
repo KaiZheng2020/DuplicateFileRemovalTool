@@ -6,9 +6,11 @@ This tool will find and remove Duplicate Files. If Move to Trash is checked, the
 2. find duplicate files by file md5 within 1st step results
 3. keep the first file order by create_date and modify_date, and remove other duplicate files
 
+## Install
 
-
-
+```
+pip install -r requirement.txt
+```
 
 ## Build
 
@@ -22,4 +24,3 @@ If you want to build exe file or dmg file, please flow there steps.
 3. generate file in dist dir
 ```
 
-`
